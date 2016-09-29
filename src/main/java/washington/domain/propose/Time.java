@@ -1,4 +1,4 @@
-package washington.domain.common;
+package washington.domain.propose;
 
 public enum Time {
     /**午前10～12時*/

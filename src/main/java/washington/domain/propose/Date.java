@@ -1,4 +1,4 @@
-package washington.domain.hold;
+package washington.domain.propose;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -6,19 +6,20 @@ import lombok.ToString;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Embeddable
 @ToString
 @EqualsAndHashCode
-public class Content implements Serializable {
-    @Column(name="content")
-    private final String value;
+public class Date implements Serializable {
+    @Column(name="hold_date")
+    private final LocalDate value;
 
-    public Content(String value) {
+    public Date(LocalDate value) {
         this.value = value;
     }
 
-    private Content() {
+    private Date() {
         this.value = null;
     }
 }
