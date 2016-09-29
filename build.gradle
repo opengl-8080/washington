@@ -1,0 +1,29 @@
+apply plugin: 'war'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.eclipse.collections:eclipse-collections:8.0.0'
+    providedCompile 'javax:javaee-api:7.0'
+    providedCompile 'org.projectlombok:lombok:1.16.10'
+
+    testCompile 'org.jmockit:jmockit:1.28'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.assertj:assertj-core:3.5.2'
+}
+
+war.baseName = 'washington'
+
+task deploy(type: Exec, dependsOn: war) {
+    def payaraHome = System.env.PAYARA_HOME
+    def asadmin = /$payaraHome\bin\asadmin.bat/
+
+    commandLine('cmd', '/C', asadmin, 'deploy', '--force=true', war.archivePath)
+}
