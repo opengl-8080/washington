@@ -9,8 +9,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 @Entity
 @Table(name="proposed_date")
@@ -25,16 +23,12 @@ public class ProposedDate implements Serializable {
     @Embedded
     private Content content;
     @Embedded
-    private Map<Time, Participants> participantsMap = new HashMap<>();
+    private Participants participants = new Participants();
 
     private boolean isPlanedDate;
 
     public ProposedDate(Date date) {
         this.date = date;
-        this.participantsMap.put(Time.MORNING, new Participants());
-        this.participantsMap.put(Time.AFTERNOON1, new Participants());
-        this.participantsMap.put(Time.AFTERNOON2, new Participants());
-        this.participantsMap.put(Time.AFTERNOON3, new Participants());
     }
 
     public boolean isPlanedDate() {
@@ -45,33 +39,29 @@ public class ProposedDate implements Serializable {
         return this.round.asString();
     }
 
-//    public void add(Time time, Member member) {
-//        this.participantsMap.get(time).add(member);
-//    }
-//
-//    public void remove(Time time, Member member) {
-//        this.participantsMap.get(time).remove(member);
-//    }
-//
-//    public int countParticipants(Time time) {
-//        return this.participantsMap.get(time).count();
-//    }
-//
-//    public Time getMostManyParticipantsTime() {
-//        return this.participantsMap.entrySet().stream()
-//                .max((e1, e2) -> e1.getValue().count() - e2.getValue().count())
-//                .get().getKey();
-//    }
-//
-//    public int getMostManyParticipantsCount() {
-//        return this.participantsMap.entrySet().stream()
-//                .max((e1, e2) -> e1.getValue().count() - e2.getValue().count())
-//                .get().getValue().count();
-//    }
-//
-//    public boolean contains(Time time, Member member) {
-//        return this.participantsMap.get(time).contains(member);
-//    }
+    public void add(Time time, Member member) {
+        this.participants.add(time, member);
+    }
+
+    public void remove(Time time, Member member) {
+        this.participants.remove(time, member);
+    }
+
+    public int countMember(Time time) {
+        return this.participants.count(time);
+    }
+
+    public Time getMostManyMemberTime() {
+        return this.participants.getMostManyMemberTime();
+    }
+
+    public int getMaxMemberCount() {
+        return this.participants.getMaxMemberCount();
+    }
+
+    public boolean contains(Time time, Member member) {
+        return this.participants.contains(time, member);
+    }
 
     public void setPlanedDate(boolean planedDate) {
         isPlanedDate = planedDate;
@@ -110,10 +100,6 @@ public class ProposedDate implements Serializable {
 
     Round getRound() {
         return round;
-    }
-
-    Map<Time, Participants> getParticipantsMap() {
-        return participantsMap;
     }
 
     private ProposedDate() {
