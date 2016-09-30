@@ -45,33 +45,33 @@ public class ProposedDate implements Serializable {
         return this.round.asString();
     }
 
-    public void add(Time time, Member member) {
-        this.participantsMap.get(time).add(member);
-    }
-
-    public void remove(Time time, Member member) {
-        this.participantsMap.get(time).remove(member);
-    }
-
-    public int countParticipants(Time time) {
-        return this.participantsMap.get(time).size();
-    }
-
-    public Time getMostManyParticipantsTime() {
-        return this.participantsMap.entrySet().stream()
-                .max((e1, e2) -> e1.getValue().size() - e2.getValue().size())
-                .get().getKey();
-    }
-
-    public int getMostManyParticipantsCount() {
-        return this.participantsMap.entrySet().stream()
-                .max((e1, e2) -> e1.getValue().size() - e2.getValue().size())
-                .get().getValue().size();
-    }
-
-    public boolean contains(Time time, Member member) {
-        return this.participantsMap.get(time).contains(member);
-    }
+//    public void add(Time time, Member member) {
+//        this.participantsMap.get(time).add(member);
+//    }
+//
+//    public void remove(Time time, Member member) {
+//        this.participantsMap.get(time).remove(member);
+//    }
+//
+//    public int countParticipants(Time time) {
+//        return this.participantsMap.get(time).count();
+//    }
+//
+//    public Time getMostManyParticipantsTime() {
+//        return this.participantsMap.entrySet().stream()
+//                .max((e1, e2) -> e1.getValue().count() - e2.getValue().count())
+//                .get().getKey();
+//    }
+//
+//    public int getMostManyParticipantsCount() {
+//        return this.participantsMap.entrySet().stream()
+//                .max((e1, e2) -> e1.getValue().count() - e2.getValue().count())
+//                .get().getValue().count();
+//    }
+//
+//    public boolean contains(Time time, Member member) {
+//        return this.participantsMap.get(time).contains(member);
+//    }
 
     public void setPlanedDate(boolean planedDate) {
         isPlanedDate = planedDate;
