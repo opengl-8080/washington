@@ -1,0 +1,139 @@
+@charset "UTF-8";
+
+.successMessage {
+    font-size: 15pt;
+    font-weight: bold;
+    color: blue;
+}
+
+.form {
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 0px 20px 30px;
+}
+
+.form-title {
+    font-size: 24pt;
+    border-bottom: 1px solid #000;
+    padding-bottom: 5px;
+}
+
+.batchRegisterForm {
+    width: 300px;
+    margin: 0 auto;
+}
+
+.batchRegisterForm-dateInput {
+    width: 180px;
+}
+
+.monthCalendar {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.calendar {
+    width: 100%;
+}
+
+.calendar-cell {
+    width: 150px;
+}
+
+.calendar-header {
+    font-size: 15pt;
+    text-align: center;
+    font-weight: bold;
+}
+
+.calendar-header_holiday {
+    background-color: pink;
+}
+
+.calendar-date {
+    font-size: 13pt;
+    height: 100px;
+    vertical-align: top;
+    text-align: left;
+}
+
+.calendar-date_holiday {
+    background-color: pink;
+}
+
+.calendarCell-day {
+    width: 30px;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.calendarCell-reserved {
+    color: red;
+}
+
+.calendarCell-proposed {
+    color: blue;
+}
+
+.calendarCell-round {
+    display: block;
+    font-size: 12pt;
+}
+
+.calendarCell-time {
+    display: block;
+    font-size: 12pt;
+}
+
+.calendarCell-memberCount {
+    display: block;
+    font-size: 12pt;
+}
+
+.proposedDate {
+    width: 500px;
+    margin: 10px auto;
+}
+
+.pageTitle {
+    font-size: 20pt;
+}
+
+.pageTitle-planedDate {
+    font-size: 18pt;
+    color: red;
+}
+
+.roundView-title {
+    font-weight: bold;
+    width: 70px;
+    display: inline-block;
+    margin: 10px 0px;
+}
+
+.contentView-title {
+    font-weight: bold;
+    display: block;
+    margin: 10px 0px;
+}
+
+.contentView-value {
+    margin: 10px;
+}
+
+.maintenance {
+    margin: 50px 0px;
+}
+
+.maintenance-content {
+    min-height: 300px;
+    resize: vertical;
+}
+
+.timeTable-cell {
+    height: 60px;
+}
+
+.timeTable-header {
+    text-align: center;
+}

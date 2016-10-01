@@ -22,7 +22,7 @@ public class Round implements Serializable {
         this.value = null;
     }
 
-    String asString() {
+    public String asText() {
         return this.value;
     }
 }

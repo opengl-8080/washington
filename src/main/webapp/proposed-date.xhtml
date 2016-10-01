@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <head>
+    </head>
+    <body>
+        <f:metadata>
+            <f:viewParam name="date" value="#{proposedDateBean.date}" />
+            <f:viewAction action="#{proposedDateBean.init()}" />
+        </f:metadata>
+
+        <ui:composition template="/WEB-INF/xhtml/template.xhtml">
+            <ui:define name="title">
+                候補日（#{proposedDateBean.formattedDate}）
+            </ui:define>
+
+            <ui:define name="content">
+                <form jsf:id="form" class="proposedDate">
+                    <h1 class="pageTitle">
+                        候補日 #{proposedDateBean.formattedDate} <span class="pageTitle-planedDate">開催予定日</span>
+                    </h1>
+
+                    <section class="timeTable">
+                        <table class="table table-bordered timeTable-table">
+                            <tr class="timeTable-header">
+                                <th>時間帯</th>
+                                <th>参加可能人数</th>
+                                <th>あなたの参加可否</th>
+                            </tr>
+                            <ui:repeat value="#{proposedDateBean.timeTable}" var="timeLine" varStatus="status">
+                                <tr>
+                                    <td class="timeTable-cell timeTable-time">#{timeLine.time}</td>
+                                    <td class="timeTable-cell timeTable-memberCount">#{timeLine.memberCount}人</td>
+                                    <td class="timeTable-cell timeTable-participate">
+                                        <input type="checkbox" data-toggle="toggle" class="participateButton"
+                                               jsf:value="#{proposedDateBean.timeTable[status.index].participate}"
+                                               data-on="可" data-off="不可" />
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                        </table>
+
+                        <input type="button" value="保存" class="pull-right btn btn-success"
+                               jsf:action="#{proposedDateBean.save()}" />
+                        <div class="clearfix"></div>
+                    </section>
+
+                    <section class="view">
+                        <div class="roundView">
+                            <span class="roundView-title">開催回</span>
+                            <span class="roundView-value">第10.5回</span>
+                        </div>
+
+                        <div class="contentView">
+                            <span class="contentView-title">内容</span>
+                            <span class="contentView-value">あああああああああああああ</span>
+                        </div>
+                    </section>
+
+                    <section class="maintenance">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" /> 開催予定日
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="round" class="control-label">開催回</label>
+                            <input id="round" type="text" class="form-control maintenance-round" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="content" class="control-label">内容</label>
+                            <textarea id="content" class="form-control maintenance-content" />
+                        </div>
+
+                        <input type="submit" value="更新する" class="btn btn-success" />
+                    </section>
+                </form>
+            </ui:define>
+
+            <ui:define name="javascript">
+                <h:outputScript library="js" name="proposed-date.js" />
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

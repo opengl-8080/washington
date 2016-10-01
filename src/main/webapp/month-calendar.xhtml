@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:wcmp="http://xmlns.jcp.org/jsf/composite/wcmp">
+    <head>
+    </head>
+    <body>
+        <f:metadata>
+            <f:viewParam name="year" value="#{monthCalendarBean.year}" />
+            <f:viewParam name="month" value="#{monthCalendarBean.month}" />
+            <f:viewAction action="#{monthCalendarBean.init()}" />
+        </f:metadata>
+
+        <ui:composition template="/WEB-INF/xhtml/template.xhtml">
+            <ui:define name="title">
+                #{monthCalendarBean.year}年#{monthCalendarBean.month}月の候補日
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="monthCalendar">
+                    <h1>#{monthCalendarBean.year}年#{monthCalendarBean.month}月</h1>
+
+                    <table class="calendar table table-bordered">
+                        <tr>
+                            <th class="calendar-cell calendar-header calendar-header_holiday">日</th>
+                            <th class="calendar-cell calendar-header">月</th>
+                            <th class="calendar-cell calendar-header">火</th>
+                            <th class="calendar-cell calendar-header">水</th>
+                            <th class="calendar-cell calendar-header">木</th>
+                            <th class="calendar-cell calendar-header">金</th>
+                            <th class="calendar-cell calendar-header calendar-header_holiday">土</th>
+                        </tr>
+                        <ui:repeat value="#{monthCalendarBean.weeks}" var="week">
+                            <tr>
+                                <td class="calendar-cell calendar-date calendar-date_holiday">
+                                    <wcmp:calendarCell value="#{week.sunday}" />
+                                </td>
+                                <td class="calendar-cell calendar-date">
+                                    <wcmp:calendarCell value="#{week.monday}" />
+                                </td>
+                                <td class="calendar-cell calendar-date">
+                                    <wcmp:calendarCell value="#{week.tuesday}" />
+                                </td>
+                                <td class="calendar-cell calendar-date">
+                                    <wcmp:calendarCell value="#{week.wednesday}" />
+                                </td>
+                                <td class="calendar-cell calendar-date">
+                                    <wcmp:calendarCell value="#{week.thursday}" />
+                                </td>
+                                <td class="calendar-cell calendar-date">
+                                    <wcmp:calendarCell value="#{week.friday}" />
+                                </td>
+                                <td class="calendar-cell calendar-date calendar-date_holiday">
+                                    <wcmp:calendarCell value="#{week.saturday}" />
+                                </td>
+                            </tr>
+                        </ui:repeat>
+                    </table>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

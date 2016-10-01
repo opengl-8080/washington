@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Entity
 @Table(name="proposed_date")
@@ -23,18 +24,18 @@ public class ProposedDate implements Serializable {
     @Embedded
     private Participants participants = new Participants();
 
-    private boolean isPlanedDate;
+    private boolean reserved;
 
     public ProposedDate(Date date) {
         this.date = date;
     }
 
-    public boolean isPlanedDate() {
-        return isPlanedDate;
+    public boolean isReserved() {
+        return reserved;
     }
 
     public String getRoundAsString() {
-        return this.round.asString();
+        return this.round.asText();
     }
 
     public void add(Time time, Member member) {
@@ -49,7 +50,7 @@ public class ProposedDate implements Serializable {
         return this.participants.count(time);
     }
 
-    public Time getMostManyMemberTime() {
+    public Optional<Time> getMostManyMemberTime() {
         return this.participants.getMostManyMemberTime();
     }
 
@@ -61,8 +62,8 @@ public class ProposedDate implements Serializable {
         return this.participants.contains(time, member);
     }
 
-    public void setPlanedDate(boolean planedDate) {
-        isPlanedDate = planedDate;
+    public void setReserved(boolean reserved) {
+        this.reserved = reserved;
     }
 
     public void setRound(Round round) {
@@ -88,7 +89,7 @@ public class ProposedDate implements Serializable {
         return this.date.equals(other.date);
     }
 
-    Date getDate() {
+    public Date getDate() {
         return date;
     }
 
@@ -96,11 +97,12 @@ public class ProposedDate implements Serializable {
         return content;
     }
 
-    Round getRound() {
-        return round;
+    public String getRoundAsText() {
+        return this.round == null ? "" : this.round.asText();
     }
 
     private ProposedDate() {
         this.date = new Date(LocalDate.now());
     }
+
 }

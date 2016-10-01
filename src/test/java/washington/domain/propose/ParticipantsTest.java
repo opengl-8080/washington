@@ -3,6 +3,8 @@ package washington.domain.propose;
 import org.junit.Test;
 import washington.domain.member.Member;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.*;
 import static washington.TestUtil.*;
 
@@ -69,10 +71,19 @@ public class ParticipantsTest {
         participants.add(Time.AFTERNOON3, b);
 
         // exercise
-        Time time = participants.getMostManyMemberTime();
+        Optional<Time> time = participants.getMostManyMemberTime();
 
         // verify
-        assertThat(time).isEqualTo(Time.AFTERNOON1);
+        assertThat(time).hasValue(Time.AFTERNOON1);
+    }
+
+    @Test
+    public void 全時間帯の参加者が0人の場合は空のOptionalが返される() throws Exception {
+        // exercise
+        Optional<Time> time = participants.getMostManyMemberTime();
+
+        // verify
+        assertThat(time).isEmpty();
     }
 
     @Test

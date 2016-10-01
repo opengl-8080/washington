@@ -5,6 +5,7 @@ import org.eclipse.collections.api.map.MutableMap;
 import org.eclipse.collections.impl.factory.Maps;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public class ProposedDates {
 
@@ -20,7 +21,7 @@ public class ProposedDates {
         this.proposedDateMap = map.toImmutable();
     }
 
-    public ProposedDate get(Date date) {
-        return this.proposedDateMap.get(date);
+    public Optional<ProposedDate> get(Date date) {
+        return Optional.ofNullable(this.proposedDateMap.get(date));
     }
 }

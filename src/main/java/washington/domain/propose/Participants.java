@@ -10,6 +10,7 @@ import washington.domain.member.Member;
 
 import javax.persistence.Embeddable;
 import java.io.Serializable;
+import java.util.Optional;
 
 @Embeddable
 @ToString
@@ -35,8 +36,9 @@ public class Participants implements Serializable {
         this.memberMap.get(time).remove(member);
     }
 
-    public Time getMostManyMemberTime() {
-        return this.memberMap.keysView().max((time1, time2) -> this.count(time1) - this.count(time2));
+    public Optional<Time> getMostManyMemberTime() {
+        Time max = this.memberMap.keysView().max((time1, time2) -> this.count(time1) - this.count(time2));
+        return (this.count(max) == 0) ? Optional.empty() : Optional.of(max);
     }
 
     public int getMaxMemberCount() {

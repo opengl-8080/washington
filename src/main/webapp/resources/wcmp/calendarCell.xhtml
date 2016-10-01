@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite">
+    <head>
+    </head>
+    <body>
+        <composite:interface>
+            <composite:attribute name="value" />
+        </composite:interface>
+
+        <composite:implementation>
+            <span class="calendarCell-day">#{cc.attrs.value.day}</span>
+            <a jsf:outcome="/proposed-date.xhtml" jsf:rendered="#{cc.attrs.value.proposed}">
+                <span class="calendarCell-proposed" jsf:rendered="#{cc.attrs.value.proposed and !cc.attrs.value.reserved}">
+                    候補日
+                </span>
+                <span class="calendarCell-reserved" jsf:rendered="#{cc.attrs.value.reserved}">
+                    開催予定日
+                </span>
+                <f:param name="date" value="#{cc.attrs.value.date}" />
+            </a>
+            <span class="calendarCell-round">#{cc.attrs.value.round}</span>
+            <span class="calendarCell-time">#{cc.attrs.value.time}</span>
+            <span class="calendarCell-memberCount"
+                  jsf:rendered="#{cc.attrs.value.memberCount != null}">参加人数：#{cc.attrs.value.memberCount}人</span>
+        </composite:implementation>
+    </body>
+</html>

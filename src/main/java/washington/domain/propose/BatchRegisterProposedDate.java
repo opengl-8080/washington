@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import java.io.Serializable;
 
 @ApplicationScoped
-public class BatchRegisterPropsedDateService implements Serializable {
+public class BatchRegisterProposedDate implements Serializable {
 
     @Inject
     private ProposedDateRepository repository;
