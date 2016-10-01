@@ -1,7 +1,7 @@
 package washington.domain.propose;
 
 import lombok.ToString;
-import washington.domain.Id;
+import washington.domain.common.Id;
 import washington.domain.member.Member;
 
 import javax.persistence.Embedded;

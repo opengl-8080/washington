@@ -1,4 +1,4 @@
-package washington.domain;
+package washington.domain.common;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

@@ -6,6 +6,7 @@ import lombok.ToString;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 @Embeddable
@@ -21,5 +22,14 @@ public class Date implements Serializable {
 
     private Date() {
         this.value = null;
+    }
+
+    public Date nextDate() {
+        return new Date(this.value.plusDays(1));
+    }
+
+    public boolean isSaturdayOrSunday() {
+        DayOfWeek dayOfWeek = this.value.getDayOfWeek();
+        return dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY;
     }
 }
