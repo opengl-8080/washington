@@ -6,4 +6,5 @@ public interface ProposedDateRepository {
 
     boolean exists(Date date);
     void batchRegister(List<ProposedDate> proposedDateList);
+    void batchRemove(DateSpan dateSpan);
 }

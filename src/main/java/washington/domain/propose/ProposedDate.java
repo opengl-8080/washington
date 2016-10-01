@@ -1,7 +1,6 @@
 package washington.domain.propose;
 
 import lombok.ToString;
-import washington.domain.common.Id;
 import washington.domain.member.Member;
 
 import javax.persistence.Embedded;
@@ -9,14 +8,13 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Entity
 @Table(name="proposed_date")
 @ToString
 public class ProposedDate implements Serializable {
     @EmbeddedId
-    private final Id<ProposedDate> id = new Id<>();
-    @Embedded
     private final Date date;
     @Embedded
     private Round round;
@@ -77,7 +75,7 @@ public class ProposedDate implements Serializable {
 
     @Override
     public int hashCode() {
-        return this.id.hashCode();
+        return this.date.hashCode();
     }
 
     @Override
@@ -87,7 +85,7 @@ public class ProposedDate implements Serializable {
         }
         ProposedDate other = (ProposedDate) obj;
 
-        return this.id.equals(other.id);
+        return this.date.equals(other.date);
     }
 
     Date getDate() {
@@ -103,6 +101,6 @@ public class ProposedDate implements Serializable {
     }
 
     private ProposedDate() {
-        this.date = null;
+        this.date = new Date(LocalDate.now());
     }
 }
