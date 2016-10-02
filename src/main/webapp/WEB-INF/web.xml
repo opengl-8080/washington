@@ -15,4 +15,15 @@
     <welcome-file-list>
         <welcome-file>month-calendar.xhtml</welcome-file>
     </welcome-file-list>
+
+    <data-source>
+        <name>java:app/washington-ds</name>
+        <class-name>org.apache.derby.jdbc.EmbeddedDataSource</class-name>
+        <database-name>washington-ds</database-name>
+        <property>
+            <name>connectionAttributes</name>
+            <value>;create=true</value>
+        </property>
+        <transactional>true</transactional>
+    </data-source>
 </web-app>

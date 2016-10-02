@@ -7,13 +7,16 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.time.DayOfWeek;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Embeddable
 @ToString
 @EqualsAndHashCode
 public class Date implements Serializable {
-    @Column(name="hold_date")
+    @Column(name="id_date")
     private final LocalDate value;
 
     public Date(LocalDate value) {
@@ -31,5 +34,9 @@ public class Date implements Serializable {
     public boolean isSaturdayOrSunday() {
         DayOfWeek dayOfWeek = this.value.getDayOfWeek();
         return dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY;
+    }
+
+    public LocalDate getValue() {
+        return this.value;
     }
 }

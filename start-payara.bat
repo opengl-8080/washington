@@ -1,9 +1,7 @@
 @echo off
 
-cd /d %PAYARA_HOME%\bin
+pushd %PAYARA_HOME%\bin
 
-title Payara
+start "Payara" asadmin.bat start-domain -v -d domain1
 
-asadmin.bat start-domain -v -d domain1
-
-pause
+popd

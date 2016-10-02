@@ -13,7 +13,7 @@ import washington.domain.propose.ProposedDates;
 import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
 
-@ApplicationScoped
+//@ApplicationScoped
 public class InmemoryProposedDateRepository implements ProposedDateRepository {
 
     private MutableMap<Date, ProposedDate> database = Maps.mutable.empty();

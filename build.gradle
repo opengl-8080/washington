@@ -10,8 +10,10 @@ repositories {
 }
 
 dependencies {
+    compile 'org.flywaydb:flyway-core:4.0.3'
     compile 'org.eclipse.collections:eclipse-collections:8.0.0'
     providedCompile 'javax:javaee-api:7.0'
+    providedCompile  group: 'org.eclipse.persistence', name: 'eclipselink', version: '2.6.2'
     providedCompile 'org.projectlombok:lombok:1.16.10'
 
     testCompile 'org.jmockit:jmockit:1.28'

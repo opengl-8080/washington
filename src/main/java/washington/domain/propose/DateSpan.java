@@ -11,6 +11,7 @@ public class DateSpan implements Iterable<Date> {
     private final Date from;
     private final Date to;
 
+
     public DateSpan(Date from, Date to) {
         this.from = from;
         this.to = to;
@@ -37,5 +38,13 @@ public class DateSpan implements Iterable<Date> {
                 return this.current;
             }
         };
+    }
+
+    public Date getFrom() {
+        return this.from;
+    }
+
+    public Date getTo() {
+        return this.to;
     }
 }

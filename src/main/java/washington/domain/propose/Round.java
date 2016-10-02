@@ -12,13 +12,13 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class Round implements Serializable {
     @Column(name="round")
-    private final String value;
+    private String value;
 
     public Round(String value) {
         this.value = value;
     }
 
-    private Round() {
+    Round() {
         this.value = null;
     }
 

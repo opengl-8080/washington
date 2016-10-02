@@ -17,6 +17,11 @@ public class IpAddressLoginUser implements LoginUser, Serializable {
     @Override
     public Member getMember() {
         String remoteAddr = this.request.getRemoteAddr();
-        return new Member(new LoginId(remoteAddr));
+
+        if ("192.168.0.40".equals(remoteAddr)) {
+            return new Member(new LoginId("member1"));
+        } else {
+            return new Member(new LoginId("member2"));
+        }
     }
 }

@@ -2,8 +2,7 @@ package washington.domain.common;
 
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -13,6 +12,7 @@ public class Lock implements Serializable {
     /**一括候補日登録処理用のロック*/
     public static final Lock BATCH_REGISTER_PROPOSED_DATE = new Lock("BATCH_REGISTER_PROPOSED_DATE");
 
+    @javax.persistence.Id
     private final String name;
 
     private Lock(String name) {
