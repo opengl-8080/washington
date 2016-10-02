@@ -10,133 +10,92 @@ import static washington.TestUtil.*;
 
 public class ParticipantsTest {
 
+    private static final Member foo = member("foo");
+    private static final Member bar = member("bar");
+
     private Participants participants = new Participants();
 
     @Test
-    public void 各時間帯の参加人数は0で初期化されていること() throws Exception {
+    public void 空かどうか確認できる_空でない場合() throws Exception {
+        // setup
+        participants.add(foo);
+
         // exercise, verify
-        assertThat(participants.count(Time.MORNING)).as("午前").isEqualTo(0);
-        assertThat(participants.count(Time.AFTERNOON1)).as("午後１").isEqualTo(0);
-        assertThat(participants.count(Time.AFTERNOON2)).as("午後２").isEqualTo(0);
-        assertThat(participants.count(Time.AFTERNOON3)).as("午後３").isEqualTo(0);
+        assertThat(participants.isEmpty()).isFalse();
     }
 
     @Test
-    public void 時間帯を指定してメンバーを追加できる() throws Exception {
+    public void 空かどうか確認できる_空の場合() throws Exception {
+        // exercise, verify
+        assertThat(participants.isEmpty()).isTrue();
+    }
+
+    @Test
+    public void インスタンス生成直後は人数0() throws Exception {
+        // exercise, verify
+        assertThat(participants.count()).isEqualTo(0);
+    }
+
+    @Test
+    public void メンバーを追加したら人数が増える() throws Exception {
+        // exercise
+        participants.add(foo);
+
+        // verify
+        assertThat(participants.count()).isEqualTo(1);
+    }
+
+    @Test
+    public void メンバーを指定して削除できる() throws Exception {
         // setup
-        Member a = member("a");
+        participants.add(foo);
+        participants.add(bar);
 
         // exercise
-        participants.add(Time.MORNING, a);
-        participants.add(Time.AFTERNOON1, a);
-        participants.add(Time.AFTERNOON2, a);
+        participants.remove(foo);
 
         // verify
-        assertThat(participants.count(Time.MORNING)).as("午前").isEqualTo(1);
-        assertThat(participants.count(Time.AFTERNOON1)).as("午後１").isEqualTo(1);
-        assertThat(participants.count(Time.AFTERNOON2)).as("午後２").isEqualTo(1);
-        assertThat(participants.count(Time.AFTERNOON3)).as("午後３").isEqualTo(0);
+        assertThat(participants.count()).isEqualTo(1);
     }
 
     @Test
-    public void 時間帯を指定してメンバーを削除できる() throws Exception {
+    public void 指定したメンバーが含まれているか確認できる_含まれている場合() throws Exception {
         // setup
-        Member a = member("a");
-        participants.add(Time.MORNING, a);
-        participants.add(Time.AFTERNOON1, a);
+        participants.add(foo);
+        participants.add(bar);
 
-        // exercise
-        participants.remove(Time.AFTERNOON1, a);
-
-        // verify
-        assertThat(participants.count(Time.MORNING)).as("午前").isEqualTo(1);
-        assertThat(participants.count(Time.AFTERNOON1)).as("午後１").isEqualTo(0);
-        assertThat(participants.count(Time.AFTERNOON2)).as("午後２").isEqualTo(0);
-        assertThat(participants.count(Time.AFTERNOON3)).as("午後３").isEqualTo(0);
+        // exercise, verify
+        assertThat(participants.contains(foo)).isTrue();
     }
 
     @Test
-    public void 最も参加人数の多い時間帯を取得できる() throws Exception {
+    public void 指定したメンバーが含まれているか確認できる_含まれていない場合() throws Exception {
         // setup
-        Member a = member("a");
-        Member b = member("b");
+        participants.add(foo);
 
-        participants.add(Time.MORNING, a);
-
-        participants.add(Time.AFTERNOON1, a);
-        participants.add(Time.AFTERNOON1, b);
-
-        participants.add(Time.AFTERNOON2, a);
-
-        participants.add(Time.AFTERNOON3, b);
-
-        // exercise
-        Optional<Time> time = participants.getMostManyMemberTime();
-
-        // verify
-        assertThat(time).hasValue(Time.AFTERNOON1);
+        // exercise, verify
+        assertThat(participants.contains(bar)).isFalse();
     }
 
     @Test
-    public void 全時間帯の参加者が0人の場合は空のOptionalが返される() throws Exception {
-        // exercise
-        Optional<Time> time = participants.getMostManyMemberTime();
-
-        // verify
-        assertThat(time).isEmpty();
-    }
-
-    @Test
-    public void 最大参加人数を取得できる() throws Exception {
+    public void 人数で比較できる() throws Exception {
         // setup
-        Member a = member("a");
-        Member b = member("b");
+        Participants a = new Participants();
+        a.add(foo);
 
-        participants.add(Time.MORNING, a);
+        Participants b = new Participants();
+        b.add(foo);
+        b.add(bar);
 
-        participants.add(Time.AFTERNOON1, a);
-        participants.add(Time.AFTERNOON1, b);
+        Participants c = new Participants();
+        c.add(foo);
+        c.add(bar);
 
-        participants.add(Time.AFTERNOON2, a);
-
-        participants.add(Time.AFTERNOON3, b);
-
-        // exercise
-        int actual = participants.getMaxMemberCount();
-
-        // verify
-        assertThat(actual).isEqualTo(2);
+        // exercise, verify
+        assertThat(a.compareTo(b)).as("few compareTo large").isLessThan(0);
+        assertThat(b.compareTo(a)).as("large compareTo few").isGreaterThan(0);
+        assertThat(b.compareTo(c)).as("equally").isEqualTo(0);
     }
 
-    @Test
-    public void 時間帯を指定してメンバーが含まれることを確認できる_含まれる場合() throws Exception {
-        // setup
-        Member a = member("a");
-        Member b = member("b");
-
-        participants.add(Time.MORNING, a);
-        participants.add(Time.AFTERNOON1, b);
-
-        // exercise
-        boolean actual = participants.contains(Time.MORNING, a);
-
-        // verify
-        assertThat(actual).isTrue();
-    }
-
-    @Test
-    public void 時間帯を指定してメンバーが含まれることを確認できる_含まれない場合() throws Exception {
-        // setup
-        Member a = member("a");
-        Member b = member("b");
-
-        participants.add(Time.MORNING, a);
-        participants.add(Time.AFTERNOON1, b);
-
-        // exercise
-        boolean actual = participants.contains(Time.AFTERNOON1, a);
-
-        // verify
-        assertThat(actual).isFalse();
-    }
+    //
 }

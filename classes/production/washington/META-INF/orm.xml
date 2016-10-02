@@ -8,6 +8,7 @@
         <query><![CDATA[
      SELECT pd
        FROM ProposedDate pd
+      WHERE pd.date.value BETWEEN :from AND :to
     ]]></query>
     </named-query>
 </entity-mappings>

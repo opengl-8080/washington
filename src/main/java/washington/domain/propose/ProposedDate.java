@@ -1,10 +1,13 @@
 package washington.domain.propose;
 
 import lombok.ToString;
-import org.eclipse.collections.impl.factory.Lists;
+import org.eclipse.collections.api.map.ImmutableMap;
 import org.eclipse.collections.impl.factory.Maps;
 import washington.domain.member.Member;
 
+import javax.mail.Part;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -18,8 +21,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -37,19 +38,20 @@ public class ProposedDate implements Serializable {
     private Round round;
     @Embedded
     private Content content;
-    @OneToMany
-    @JoinTable(
-        name="participants",
-        joinColumns=@JoinColumn(name="proposed_date", referencedColumnName="id_date"),
-        inverseJoinColumns=@JoinColumn(name="login_id", referencedColumnName="login_id")
-    )
-    @MapKeyColumn(name="time_span")
-    @MapKeyEnumerated(EnumType.STRING)
-    private Map<Time, List<Member>> memberMap = Maps.mutable.of(
-            Time.MORNING, new ArrayList<>(),
-            Time.AFTERNOON1, new ArrayList<>(),
-            Time.AFTERNOON2, new ArrayList<>(),
-            Time.AFTERNOON3, new ArrayList<>()
+    @Transient
+//    @Embedded
+//    @ElementCollection
+//    @CollectionTable(
+//        name="participants",
+//        joinColumns=@JoinColumn(name="proposed_date", referencedColumnName="id_date")
+//    )
+//    @MapKeyColumn(name="time_span")
+//    @MapKeyEnumerated(EnumType.STRING)
+    private Map<Time, Participants> memberMap = Maps.mutable.of(
+        Time.MORNING, new Participants(),
+        Time.AFTERNOON1, new Participants(),
+        Time.AFTERNOON2, new Participants(),
+        Time.AFTERNOON3, new Participants()
     );
 
     public ProposedDate(Date date) {
@@ -60,43 +62,38 @@ public class ProposedDate implements Serializable {
         return reserved;
     }
 
-    public String getRoundAsString() {
-        return this.round.asText();
-    }
-
     public void add(Time time, Member member) {
-        this.getParticipants().add(time, member);
+        this.memberMap.get(time).add(member);
     }
 
     public void remove(Time time, Member member) {
-        this.getParticipants().remove(time, member);
+        this.memberMap.get(time).remove(member);
     }
 
     public int countMember(Time time) {
-        return this.getParticipants().count(time);
+        return this.memberMap.get(time).count();
     }
 
     public Optional<Time> getMostManyMemberTime() {
-        return this.getParticipants().getMostManyMemberTime();
+        Time max = this.withEclipseCollection().keysView().max(this::compareByMemberCount);
+        return this.countMember(max) == 0 ? Optional.empty() : Optional.of(max);
+    }
+
+    private ImmutableMap<Time, Participants> withEclipseCollection() {
+        return Maps.immutable.ofAll(this.memberMap);
+    }
+
+    private int compareByMemberCount(Time t1, Time t2) {
+        return this.memberMap.get(t1).compareTo(this.memberMap.get(t2));
     }
 
     public int getMaxMemberCount() {
-        return this.getParticipants().getMaxMemberCount();
+        Time max = this.withEclipseCollection().keysView().max(this::compareByMemberCount);
+        return this.countMember(max);
     }
 
     public boolean contains(Time time, Member member) {
-        return this.getParticipants().contains(time, member);
-    }
-
-    @Transient
-    private Participants participants;
-
-    private Participants getParticipants() {
-        if (this.participants == null) {
-            this.participants = new Participants(this.memberMap);
-        }
-
-        return this.participants;
+        return this.memberMap.get(time).contains(member);
     }
 
     public void setReserved(boolean reserved) {
